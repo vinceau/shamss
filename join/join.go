@@ -46,7 +46,8 @@ func main() {
 		}
 	}
 
-	joinShares(parts)
+	res := joinShares(parts)
+	fmt.Printf("Secret: %v\n", res)
 }
 
 func joinShares(shares []Tuple) int64 {
@@ -55,7 +56,10 @@ func joinShares(shares []Tuple) int64 {
 		// fmt.Printf("%v, %v\n", j, share)
 		var prod int64 = 1
 		for m := 0; m < len(shares); m++ {
-			prod *= shares[m].x / (shares[m].x - shares[j].x)
+			if m != j {
+				fmt.Printf("%v, %v\n", shares[m].x, shares[j].x)
+				prod *= shares[m].x / (shares[m].x - shares[j].x)
+			}
 		}
 		sum += share.y * prod
 	}
