@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	secretPtr := flag.Int("secret", 0, "The secret number to be split")
-	sharesPtr := flag.Int("num_shares", 2, "The number of shares to generate")
-	thresholdPtr := flag.Int("threshold", 1, "The minimum number of shares required to recreate the secret")
+	secretPtr := flag.Int64("secret", 0, "The secret number to be split")
+	sharesPtr := flag.Int64("num_shares", 2, "The number of shares to generate")
+	thresholdPtr := flag.Int64("threshold", 1, "The minimum number of shares required to recreate the secret")
 
 	flag.Parse()
 
@@ -30,10 +30,10 @@ func main() {
 	generateShares(*secretPtr, *thresholdPtr, *sharesPtr)
 }
 
-func generateShares(secret int, threshold int, numShares int) error {
+func generateShares(secret int64, threshold int64, numShares int64) error {
 	ss := shamir.New(secret, threshold)
 
-	for i := 0; i <= numShares; i++ {
+	for i := int64(0); i < numShares; i++ {
 		fmt.Printf("%v, %v\n", i+1, ss.Compute(i+1))
 	}
 	fmt.Println("\n")

@@ -26,7 +26,7 @@ func New(secret int64, threshold int64) *SecretSharer {
 	}
 }
 
-func (ss *SecretSharer) Compute(x int) int64 {
+func (ss *SecretSharer) Compute(x int64) int64 {
 	sum := ss.secret
 	for i := int64(0); i < ss.threshold; i++ {
 		sum += ss.coefficients[i] * int64(math.Pow(float64(x), float64(i+1)))
