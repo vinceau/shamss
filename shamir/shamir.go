@@ -1,4 +1,4 @@
-package secret
+package shamir
 
 import (
 	"math"

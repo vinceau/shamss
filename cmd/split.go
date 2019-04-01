@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	. "github.com/vinceau/shamss/secret"
+	"../shamir"
 )
 
 var largePrime int64 = 82589933
@@ -32,11 +32,11 @@ func main() {
 }
 
 func generateShares(secret int, threshold int, numShares int) error {
-	ss := secret.New(secret, threshold)
+	ss := shamir.New(secret, threshold)
 
 	for i := 0; i <= numShares; i++ {
 		fmt.Printf("%v, %v\n", i+1, ss.Compute(i+1))
 	}
 	fmt.Println("\n")
-
+	return nil
 }
