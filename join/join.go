@@ -3,41 +3,55 @@ package main
 import (
 	"flag"
 	"fmt"
-
-	"github.com/vinceau/shamss/shamir"
+	"strconv"
+	"strings"
 )
 
-var largePrime int64 = 82589933
+type Tuple struct {
+	x int64
+	y int64
+}
 
 func main() {
-	secretPtr := flag.Int("secret", 0, "The secret number to be split")
-	sharesPtr := flag.Int("num_shares", 2, "The number of shares to generate")
-	thresholdPtr := flag.Int("threshold", 1, "The minimum number of shares required to recreate the secret")
+	partsPtr := flag.String("parts", "", "The different parts")
 
 	flag.Parse()
 
-	if *sharesPtr <= 0 {
-		fmt.Printf("Shares must be greater than zero. Got: %v\n", *sharesPtr)
+	if *partsPtr == "" {
+		fmt.Println("No parts were given")
 		return
 	}
 
-	if *thresholdPtr > *sharesPtr {
-		fmt.Printf("Threshold must be greater than %v. Got: %v\n", *sharesPtr, *thresholdPtr)
-		return
+	s := strings.Split(*partsPtr, ";")
+	var parts []Tuple
+	parts = make([]Tuple, len(s))
+
+	for i, part := range s {
+		p := strings.Split(part, ",")
+		x, err := strconv.Atoi(p[0])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		y, err := strconv.Atoi(p[1])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		parts[i] = Tuple{
+			x: int64(x),
+			y: int64(y),
+		}
 	}
 
-	fmt.Println("shares: ", *sharesPtr)       // n
-	fmt.Println("threshold: ", *thresholdPtr) // k
-
-	generateShares(*secretPtr, *thresholdPtr, *sharesPtr)
+	joinShares(parts)
 }
 
-func generateShares(secret int, threshold int, numShares int) error {
-	ss := shamir.New(secret, threshold)
-
-	for i := 0; i <= numShares; i++ {
-		fmt.Printf("%v, %v\n", i+1, ss.Compute(i+1))
+func joinShares(shares []Tuple) error {
+	for i, share := range shares {
+		fmt.Printf("%v, %v\n", i, share)
 	}
-	fmt.Println("\n")
 	return nil
 }
