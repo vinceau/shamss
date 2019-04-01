@@ -49,9 +49,15 @@ func main() {
 	joinShares(parts)
 }
 
-func joinShares(shares []Tuple) error {
-	for i, share := range shares {
-		fmt.Printf("%v, %v\n", i, share)
+func joinShares(shares []Tuple) int64 {
+	var sum int64
+	for j, share := range shares {
+		// fmt.Printf("%v, %v\n", j, share)
+		var prod int64 = 1
+		for m := 0; m < len(shares); m++ {
+			prod *= shares[m].x / (shares[m].x - shares[j].x)
+		}
+		sum += share.y * prod
 	}
-	return nil
+	return sum
 }
