@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+
+	. "github.com/vinceau/shamss/secret"
 )
 
 var largePrime int64 = 82589933

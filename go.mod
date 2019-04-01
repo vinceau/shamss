@@ -1,3 +1,3 @@
-module shamss
+module github.com/vineau/shamss
 
 go 1.12
