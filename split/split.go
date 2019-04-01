@@ -34,7 +34,10 @@ func generateShares(secret int64, threshold int64, numShares int64) error {
 	ss := shamir.New(secret, threshold)
 
 	for i := int64(0); i < numShares; i++ {
-		fmt.Printf("%v, %v\n", i+1, ss.Compute(i+1))
+		fmt.Printf("%v,%v", i+1, ss.Compute(i+1))
+		if i+1 != numShares {
+			fmt.Printf(";")
+		}
 	}
 	fmt.Println("\n")
 	return nil
