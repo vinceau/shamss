@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"../shamir"
+	"github.com/vinceau/shamss/shamir"
 )
 
 var largePrime int64 = 82589933
@@ -29,6 +29,7 @@ func main() {
 	fmt.Println("shares: ", *sharesPtr)       // n
 	fmt.Println("threshold: ", *thresholdPtr) // k
 
+	generateShares(*secretPtr, *thresholdPtr, *sharesPtr)
 }
 
 func generateShares(secret int, threshold int, numShares int) error {
